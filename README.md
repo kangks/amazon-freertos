@@ -4,7 +4,6 @@ In this builder session, we will explore the Amazon FreeRTOS, by running example
 
 # Steps	
 
-1. Create AWS IoT Thing
 1. Create Cloud9 instance
 1. Configure Cloud9 environment
 1. Download Amazon FreeRTOS
@@ -12,30 +11,6 @@ In this builder session, we will explore the Amazon FreeRTOS, by running example
 1. Compile Amazon FreeRTOS
 1. Download to local computer to flash to ESP32
 Amazon FreeRTOS references
-
-## Step 1 - Create AWS IoT Thing
-
-1.	Login to AWS IoT Console https://console.aws.amazon.com/iot
-1.	Create an IoT Policy
-```
-{
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": "iot:*",
-      "Resource": "*"
-    }
-  ],
-  "Version": "2012-10-17"
-}
-```
-1.	Create an IoT Thing in Manage -> Things -> Create, choose Create a single thing
-1.	Use a name, for example, esp32_reinvent, choose Next
-1.	Choose Create certificate
-1.	Download all the certificates
-1.	Choose Activate
-1.	Choose Attach a policy to attach policy from previous step
-1.	Go to Settings and make a note of Custom endpoint
 
 ## Step 2 - Create Cloud9 instance
 
