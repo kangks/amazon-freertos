@@ -81,6 +81,10 @@ Follow steps in https://github.com/aws/amazon-freertos/tree/master/tools/aws_con
 1.	esptool.py -p /dev/cu.SLAB_USBtoUART -b 115200 write_flash --flash_mode dio --flash_size 2MB 0x20000 amazon-freertos/demos/espressif/esp32_devkitc_esp_wrover_kit/make/build/aws_demos.bin
 1.	miniterm.py /dev/cu.SLAB_USBtoUART 115200
 
+## What's next?
+
+1. Explore other demos in [amazon-freertos/demos/common/demo_runner/aws_demo_runner.c](https://github.com/aws/amazon-freertos/blob/master/demos/common/demo_runner/aws_demo_runner.c)
+
 ## Amazon FreeRTOS references
 
 * Amazon FreeRTOS Documentation
