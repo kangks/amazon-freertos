@@ -77,13 +77,78 @@ Follow steps in https://github.com/aws/amazon-freertos/tree/master/tools/aws_con
 
 ## Step 7 – Download to local computer to flash to ESP32
 
-1.	Download Cloud9 project
-1.	Extract the compressed file
-1.	The compiled binary is in amazon-freertos/demos/espressif/esp32_devkitc_esp_wrover_kit/make/build/aws_demos.bin
-1.	Install the esptool to flash the image
-1.	`sudo pip install esptool`
-1.	`esptool.py -p /dev/cu.SLAB_USBtoUART -b 115200 write_flash --flash_mode dio --flash_size 2MB 0x20000 amazon-freertos/demos/espressif/esp32_devkitc_esp_wrover_kit/make/build/aws_demos.bin`
-1.	`miniterm.py /dev/cu.SLAB_USBtoUART 115200`
+1.	Download compiled .bin file
+
+### Flashing Amazon FreeRTOS compiled firmware to your ESP32 board 
+
+1. Download and install Silicon Labs [CP2104 drivers](https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers)
+
+2. Connect your ESP32 DevKitC board to the laptop using provided USB cable and identify which port it is connected to
+On Windows it will be ```COM3``` for example, on Mac OS typically it enumerated as ```/dev/tty.SLAB_USBtoUART``` and on Linux most likely ```/dev/ttyUSB0```
+
+3. Install [esptool](https://github.com/espressif/esptool) and flash the firware
+
+#### Windows
+1. Download binary from [here](https://dl.espressif.com/dl/esptool-2.3.1-windows.zip)
+1. Drop it to the subfolder that already in your PATH or add subfolder you placed esptool to your PATH variable
+1. Open Commnd Prompt and execute following command (from the directory you places 3 downloaded files):
+```
+esptool --chip esp32 --port COM3 --baud 921600 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size detect 0x1000 bootloader.bin 0x20000 aws_demos.bin 0x8000 partitions_example.bin
+```
+
+#### Mac/Linux
+1. Install esptool.py:
+```bash
+sudo pip install esptool pyserial
+```
+2. Execute following command from the directory you placed 3 downloaded files:
+```bash
+esptool.py --chip esp32 --port /dev/tty.SLAB_USBtoUART --baud 921600 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size detect 0x1000 bootloader.bin 0x20000 aws_demos.bin 0x8000 partitions_example.bin
+```
+3. Monitor the flashing process:
+```bash
+bash-3.2$ esptool.py --chip esp32 --port /dev/tty.SLAB_USBtoUART --baud 921600 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size detect 0x1000 bootloader.bin 0x20000 aws_demos.bin 0x8000 partitions_example.bin
+esptool.py v2.5.1
+Serial port /dev/tty.SLAB_USBtoUART
+Connecting........__
+Chip is ESP32D0WDQ5 (revision 1)
+Features: WiFi, BT, Dual Core
+MAC: 24:0a:c4:23:de:7c
+Uploading stub...
+Running stub...
+Stub running...
+Changing baud rate to 921600
+Changed.
+Configuring flash size...
+Auto-detected Flash size: 4MB
+Flash params set to 0x0220
+Compressed 21936 bytes to 13046...
+Wrote 21936 bytes (13046 compressed) at 0x00001000 in 0.2 seconds (effective 1145.0 kbit/s)...
+Hash of data verified.
+Compressed 628432 bytes to 398564...
+Wrote 628432 bytes (398564 compressed) at 0x00020000 in 5.9 seconds (effective 854.5 kbit/s)...
+Hash of data verified.
+Compressed 3072 bytes to 119...
+Wrote 3072 bytes (119 compressed) at 0x00008000 in 0.0 seconds (effective 3255.9 kbit/s)...
+Hash of data verified.
+
+Leaving...
+Hard resetting via RTS pin...
+```
+
+### Monitor code execution through the serial console
+
+#### Windows
+
+1. You can download putty from http://www.putty.org/ or http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html
+
+#### Mac/Linux
+
+1. Use ```miniterm.py``` to see the ESP32 console
+
+```
+miniterm.py /dev/cu.SLAB_USBtoUART 115200
+```
 
 ## What's next?
 
