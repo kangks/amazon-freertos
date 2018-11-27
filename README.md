@@ -1,3 +1,7 @@
+# IOT217 - Get Started on Amazon FreeRTOS
+
+In this builder session, we will explore the Amazon FreeRTOS, by running example applications with esp32 development kit. Once we have our first hello world flash and running on the esp32, we will proceed to take a quick walk through of the codes.
+
 # Steps	
 
 1. Create AWS IoT Thing
