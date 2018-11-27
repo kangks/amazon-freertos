@@ -12,7 +12,7 @@ In this builder session, we will explore the Amazon FreeRTOS, by running example
 1. Download to local computer to flash to ESP32
 Amazon FreeRTOS references
 
-## Step 2 - Create Cloud9 instance
+## Step 1 - Create Cloud9 instance
 
 1.	Goto https://console.aws.amazon.com/cloud9
 1.	Choose Create environment
@@ -22,7 +22,7 @@ Amazon FreeRTOS references
 1.	t2.micro
 1.	Choose Next step, Choose Create environment
 
-## Step 3 - Configure Cloud9 environment
+## Step 2 - Configure Cloud9 environment
 
 1.	`sudo yum -y update`
 1.	`sudo yum groupinstall -y "Development tools”`
@@ -36,21 +36,21 @@ Amazon FreeRTOS references
 1.	`mkdir –p ~/bin`
 1.	`ln -s ~/xtensa-esp32-elf/bin/* ~/bin/`
 
-## Step 4 - Download Amazon FreeRTOS
+## Step 3 - Download Amazon FreeRTOS
 
 1.	`cd ~/environment`
 1.	`git clone https://github.com/aws/amazon-freertos.git`
 
-## Step 5 – Configure Amazon FreeRTOS
+## Step 4 – Configure Amazon FreeRTOS
 
 Follow steps in https://github.com/aws/amazon-freertos/tree/master/tools/aws_config_quick_start#script-to-setup-the-aws-resources-through-command-line
 
-## Step 6 - Compile Amazon FreeRTOS
+## Step 5 - Compile Amazon FreeRTOS
 
 1.	`cd ~/environment/amazon-freertos/demos/espressif/esp32_devkitc_esp_wrover_kit/make`
 1.	Run `make`
 
-## Step 7 – Download to local computer to flash to ESP32
+## Step 6 – Download to local computer to flash to ESP32
 
 1.	Download compiled .bin file
 
