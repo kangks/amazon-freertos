@@ -45,22 +45,22 @@ Amazon FreeRTOS references
 
 ## Step 3 - Configure Cloud9 environment
 
-1.	sudo yum -y update
-1.	sudo yum groupinstall -y"Development tools”
+1.	`sudo yum -y update`
+1.	`sudo yum groupinstall -y "Development tools”`
 1.	Install GNU perfect, hash function generator
-1.	sudo yum install –y gperf
-1.	sudo pip install serial
+   1.	`sudo yum install –y gperf`
+   1.	`sudo pip install serial`
 1.	Download and create xtensa toolchain
-1.	cd ~
-1.	wget https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-73-ge28a011-5.2.0.tar.gz
-1.	tar xf xtensa-esp32-elf-linux64-1.22.0-73-ge28a011-5.2.0.tar.gz
-1.	mkdir –p ~/bin
-1.	ln -s ~/xtensa-esp32-elf/bin/* ~/bin/
+   1.	`cd ~`
+   1.	`wget https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-73-ge28a011-5.2.0.tar.gz`
+   1.	`tar xf xtensa-esp32-elf-linux64-1.22.0-73-ge28a011-5.2.0.tar.gz`
+1.	`mkdir –p ~/bin`
+1.	`ln -s ~/xtensa-esp32-elf/bin/* ~/bin/`
 
 ## Step 4 - Download Amazon FreeRTOS
 
-1.	cd ~/environment
-1.	git clone https://github.com/aws/amazon-freertos.git
+1.	`cd ~/environment`
+1.	`git clone https://github.com/aws/amazon-freertos.git`
 
 ## Step 5 – Configure Amazon FreeRTOS
 
@@ -68,8 +68,8 @@ Follow steps in https://github.com/aws/amazon-freertos/tree/master/tools/aws_con
 
 ## Step 6 - Compile Amazon FreeRTOS
 
-1.	cd ~/environment/amazon-freertos/demos/espressif/esp32_devkitc_esp_wrover_kit/make 
-1.	Run make
+1.	`cd ~/environment/amazon-freertos/demos/espressif/esp32_devkitc_esp_wrover_kit/make`
+1.	Run `make`
 
 ## Step 7 – Download to local computer to flash to ESP32
 
@@ -77,9 +77,9 @@ Follow steps in https://github.com/aws/amazon-freertos/tree/master/tools/aws_con
 1.	Extract the compressed file
 1.	The compiled binary is in amazon-freertos/demos/espressif/esp32_devkitc_esp_wrover_kit/make/build/aws_demos.bin
 1.	Install the esptool to flash the image
-1.	sudo pip install esptool
-1.	esptool.py -p /dev/cu.SLAB_USBtoUART -b 115200 write_flash --flash_mode dio --flash_size 2MB 0x20000 amazon-freertos/demos/espressif/esp32_devkitc_esp_wrover_kit/make/build/aws_demos.bin
-1.	miniterm.py /dev/cu.SLAB_USBtoUART 115200
+1.	`sudo pip install esptool`
+1.	`esptool.py -p /dev/cu.SLAB_USBtoUART -b 115200 write_flash --flash_mode dio --flash_size 2MB 0x20000 amazon-freertos/demos/espressif/esp32_devkitc_esp_wrover_kit/make/build/aws_demos.bin`
+1.	`miniterm.py /dev/cu.SLAB_USBtoUART 115200`
 
 ## What's next?
 
