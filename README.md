@@ -30,7 +30,7 @@ Amazon FreeRTOS references
 1.	Choose Create certificate
 1.	Download all the certificates
 1.	Choose Activate
-1.	Choose Attach a policy – let’s talk about IoT Policy
+1.	Choose Attach a policy to attach policy from previous step
 1.	Go to Settings and make a note of Custom endpoint
 
 ## Step 2 - Create Cloud9 instance
