@@ -1,37 +1,91 @@
-## Getting Started
+# Steps	
 
-For more information on Amazon FreeRTOS, refer to the [Getting Started section of Amazon FreeRTOS webpage](https://aws.amazon.com/freertos).
+1. Create AWS IoT Thing
+1. Create Cloud9 instance
+1. Configure Cloud9 environment
+1. Download Amazon FreeRTOS
+1. Configure Amazon FreeRTOS
+1. Compile Amazon FreeRTOS
+1. Download to local computer to flash to ESP32
+Amazon FreeRTOS references
 
-To directly access the **Getting Started Guide** for supported hardware platforms, click the corresponding link in the Supported Hardware section below.
+## Step 1 - Create AWS IoT Thing
 
-For detailed documentation on Amazon FreeRTOS, refer to the [Amazon FreeRTOS User Guide](https://aws.amazon.com/documentation/freertos).
+1.	Login to AWS IoT Console https://console.aws.amazon.com/iot
+1.	Create an IoT Policy
+```
+{
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "iot:*",
+      "Resource": "*"
+    }
+  ],
+  "Version": "2012-10-17"
+}
+```
+1.	Create an IoT Thing in Manage -> Things -> Create, choose Create a single thing
+1.	Use a name, for example, esp32_reinvent, choose Next
+1.	Choose Create certificate
+1.	Download all the certificates
+1.	Choose Activate
+1.	Choose Attach a policy – let’s talk about IoT Policy
+1.	Go to Settings and make a note of Custom endpoint
 
-## Supported Hardware
+## Step 2 - Create Cloud9 instance
 
-The following MCU boards are supported for Amazon FreeRTOS:
-1. **Texas Instruments** - [CC3220SF-LAUNCHXL](http://www.ti.com/tool/cc3220sf-launchxl).
-    * [Getting Started Guide](https://docs.aws.amazon.com/freertos/latest/userguide/getting_started_ti.html)
-    * IDEs: [Code Composer Studio](http://www.ti.com/tools-software/ccs.html), [IAR Embedded Workbench](https://www.iar.com/iar-embedded-workbench/partners/texas-instruments)
-2. **STMicroelectronics** - [STM32L4 Discovery kit IoT node](http://www.st.com/en/evaluation-tools/b-l475e-iot01a.html).
-    * [Getting Started Guide](https://docs.aws.amazon.com/freertos/latest/userguide/getting_started_st.html)
-    * IDE: [STM32 System Workbench](http://openstm32.org/HomePage)
-3. **NXP** - [LPC54018 IoT Module](http://www.nxp.com/LPC-AWS-Module).
-    * [Getting Started Guide](https://docs.aws.amazon.com/freertos/latest/userguide/getting_started_nxp.html)
-    * IDEs: [IAR Embedded Workbench](https://www.iar.com/iar-embedded-workbench/partners/nxp), [MCUXpresso IDE](https://www.nxp.com/mcuxpresso/ide/download)
-4. **Microchip** - [Curiosity PIC32MZEF](http://www.microchipdirect.com/product/search/all/dm320104-BNDL).
-    * [Getting Started Guide](https://docs.aws.amazon.com/freertos/latest/userguide/getting_started_mch.html)
-    * IDE: [MPLAB X IDE](http://www.microchip.com/mplab/mplab-x-ide)
-5. **Espressif** - [ESP32-DevKitC](https://www.espressif.com/en/products/hardware/esp32-devkitc/overview), [ESP-WROVER-KIT](https://www.espressif.com/en/products/hardware/esp-wrover-kit/overview).
-    * [Getting Started Guide](https://docs.aws.amazon.com/freertos/latest/userguide/getting_started_espressif.html)
-6. **Infineon** - [Infineon XMC4800 IoT Connectivity Kit](https://www.infineon.com/connectivitykit)
-    * [Getting Started Guide](https://docs.aws.amazon.com/freertos/latest/userguide/getting_started_infineon.html)
-    * IDE: [DAVE](https://infineoncommunity.com/dave-download_ID645)
-7. **Xilinx** - [Xilinx Zynq-7000 based MicroZed Industrial IoT Bundle](http://www.zedboard.org/product/microzed-iiot-bundle-afreertos)
-    * [Getting Started Guide](https://docs.aws.amazon.com/freertos/latest/userguide/getting_started_xilinx.html)
-    * IDE: [Xilinx SDK](https://www.xilinx.com/products/design-tools/embedded-software/sdk.html)
+1.	Goto https://console.aws.amazon.com/cloud9
+1.	Choose Create environment
+1.	Enter a name, such as esp32-xtensa-c9, choose Next step
+1.	Accept the default options
+1.	Create a new instance for environment (EC2)
+1.	t2.micro
+1.	Choose Next step, Choose Create environment
 
-**Windows Simulator**
-To evaluate Amazon FreeRTOS without using MCU-based hardware, you can use the Windows Simulator.
-* Requirements: Microsoft Windows 7 or newer, with at least a dual core and a hard-wired Ethernet connection
-* [Getting Started Guide](https://docs.aws.amazon.com/freertos/latest/userguide/getting_started_windows.html)
-* IDE: [Visual Studio Community Edition](https://www.visualstudio.com/downloads/)
+## Step 3 - Configure Cloud9 environment
+
+1.	sudo yum -y update
+1.	sudo yum groupinstall -y"Development tools”
+1.	Install GNU perfect, hash function generator
+1.	sudo yum install –y gperf
+1.	sudo pip install serial
+1.	Download and create xtensa toolchain
+1.	cd ~
+1.	wget https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-73-ge28a011-5.2.0.tar.gz
+1.	tar xf xtensa-esp32-elf-linux64-1.22.0-73-ge28a011-5.2.0.tar.gz
+1.	mkdir –p ~/bin
+1.	ln -s ~/xtensa-esp32-elf/bin/* ~/bin/
+
+## Step 4 - Download Amazon FreeRTOS
+
+1.	cd ~/environment
+1.	git clone https://github.com/aws/amazon-freertos.git
+
+## Step 5 – Configure Amazon FreeRTOS
+
+Follow steps in https://github.com/aws/amazon-freertos/tree/master/tools/aws_config_quick_start#script-to-setup-the-aws-resources-through-command-line
+
+## Step 6 - Compile Amazon FreeRTOS
+
+1.	cd ~/environment/amazon-freertos/demos/espressif/esp32_devkitc_esp_wrover_kit/make 
+1.	Run make
+
+## Step 7 – Download to local computer to flash to ESP32
+
+1.	Download Cloud9 project
+1.	Extract the compressed file
+1.	The compiled binary is in amazon-freertos/demos/espressif/esp32_devkitc_esp_wrover_kit/make/build/aws_demos.bin
+1.	Install the esptool to flash the image
+1.	sudo pip install esptool
+1.	esptool.py -p /dev/cu.SLAB_USBtoUART -b 115200 write_flash --flash_mode dio --flash_size 2MB 0x20000 amazon-freertos/demos/espressif/esp32_devkitc_esp_wrover_kit/make/build/aws_demos.bin
+1.	miniterm.py /dev/cu.SLAB_USBtoUART 115200
+
+## Amazon FreeRTOS references
+
+* Amazon FreeRTOS Documentation
+   * https://docs.aws.amazon.com/freertos/index.html#lang/en_us
+* Connect Microcontroller-Based Devices to the Cloud with Amazon FreeRTOS and Espressif ESP32
+   * https://aws.amazon.com/blogs/apn/connect-microcontroller-based-devices-to-the-cloud-with-amazon-freertos-and-espressif-esp32/
+
+
