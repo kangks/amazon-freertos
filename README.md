@@ -57,7 +57,7 @@ WiFi settings for the reInvent2018 as below:
 }
 ```
 
-To setup your Thing, and update credentials file, type the command: python SetupAWS.py setup
+To setup your Thing, and update credentials file, go to `amazon-freertos/tools/aws_config_quick_start/`, type the command `python SetupAWS.py setup`
 
 For more details of quick start can be found in https://github.com/aws/amazon-freertos/tree/master/tools/aws_config_quick_start#script-to-setup-the-aws-resources-through-command-line
 
