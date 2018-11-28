@@ -45,6 +45,18 @@ Amazon FreeRTOS references
 
 Follow steps in https://github.com/aws/amazon-freertos/tree/master/tools/aws_config_quick_start#script-to-setup-the-aws-resources-through-command-line
 
+WiFi settings for the reInvent2018 as below:
+
+```
+{
+    "afr_source_dir":"/home/ec2-user/environment/amazon-freertos/",
+    "thing_name":"<a name for the thing, e.g. esp32_reInvent2018>",
+    "wifi_ssid":"Condensate",
+    "wifi_password":"TheFinalCountdown",
+    "wifi_security":"eWiFiSecurityWPA2"
+}
+```
+
 ## Step 5 - Compile Amazon FreeRTOS
 
 1.	`cd ~/environment/amazon-freertos/demos/espressif/esp32_devkitc_esp_wrover_kit/make`
