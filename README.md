@@ -45,7 +45,7 @@ Amazon FreeRTOS references
 
 Follow steps in https://github.com/aws/amazon-freertos/tree/master/tools/aws_config_quick_start#script-to-setup-the-aws-resources-through-command-line
 
-The configure.json can be found in amazon-freertos/tools/aws_config_quick_start/
+The configure.json can be found in amazon-freertos/tools/aws_config_quick_start/ in your Cloud9 environment.
 
 WiFi settings for the reInvent2018 as below:
 
