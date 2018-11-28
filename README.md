@@ -43,8 +43,6 @@ Amazon FreeRTOS references
 
 ## Step 4 – Configure Amazon FreeRTOS
 
-Follow steps in https://github.com/aws/amazon-freertos/tree/master/tools/aws_config_quick_start#script-to-setup-the-aws-resources-through-command-line
-
 The configure.json can be found in amazon-freertos/tools/aws_config_quick_start/ in your Cloud9 environment.
 
 WiFi settings for the reInvent2018 as below:
@@ -58,6 +56,10 @@ WiFi settings for the reInvent2018 as below:
     "wifi_security":"eWiFiSecurityWPA2"
 }
 ```
+
+To setup your Thing, and update credentials file, type the command: python SetupAWS.py setup
+
+For more details of quick start can be found in https://github.com/aws/amazon-freertos/tree/master/tools/aws_config_quick_start#script-to-setup-the-aws-resources-through-command-line
 
 ## Step 5 - Compile Amazon FreeRTOS
 
