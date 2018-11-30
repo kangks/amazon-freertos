@@ -45,6 +45,8 @@ Amazon FreeRTOS references
 
 The configure.json can be found in `amazon-freertos/tools/aws_config_quick_start/` in your Cloud9 environment. Double click the file from the file explorer at the left hand side to open the editor.
 
+<img src="https://github.com/kangks/amazon-freertos/blob/master/images/cloud9_edit.png" width="30%" height="30%">
+
 WiFi settings for the reInvent2018 as below:
 
 ```
@@ -74,6 +76,8 @@ For more details of quick start can be found in https://github.com/aws/amazon-fr
     1. aws_demos.bin
     1. bootloader/bootloader.bin
     1. partitions_example.bin
+
+<img src="https://github.com/kangks/amazon-freertos/blob/master/images/cloud9_download.png" width="30%" height="30%">
 
 ### Flashing Amazon FreeRTOS compiled firmware to your ESP32 board 
 
@@ -146,6 +150,8 @@ miniterm.py /dev/cu.SLAB_USBtoUART 115200
 ## What's next?
 
 1. Explore other demos in [amazon-freertos/demos/common/demo_runner/aws_demo_runner.c](https://github.com/aws/amazon-freertos/blob/master/demos/common/demo_runner/aws_demo_runner.c)
+1. If you have [ESP32 Wrover Kit](https://www.amazon.com/ESP32-WROVER-KIT-Board-Espressif-Colour-Display/dp/B071ZLSB2D), try to add a simple blinky task with [blink.c](https://github.com/kangks/amazon-freertos/blob/master/demos/common/demo_runner/blink.c)
+1. Change the `demos/common/mqtt/aws_hello_world.c` to send out JSON messages (https://github.com/kangks/amazon-freertos/commit/7026f498a4d36a33318fd5ca34c0cedc9701559d#diff-0fd7d733c1846926ba690ef532bd4f1d), and use the AWS IoT Rule Engine to extract the message
 
 ## Amazon FreeRTOS references
 
