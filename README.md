@@ -68,7 +68,10 @@ For more details of quick start can be found in https://github.com/aws/amazon-fr
 
 ## Step 6 – Download to local computer to flash to ESP32
 
-1.	Download compiled .bin file
+1.	Download these compiled .bin files from `~/environment/amazon-freertos/demos/espressif/esp32_devkitc_esp_wrover_kit/make/build` folder
+  1. aws_demos.bin
+  1. bootloader/bootloader.bin
+  1. partitions_example.bin
 
 ### Flashing Amazon FreeRTOS compiled firmware to your ESP32 board 
 
@@ -92,35 +95,32 @@ esptool --chip esp32 --port COM3 --baud 921600 --before default_reset --after ha
 ```bash
 sudo pip install esptool pyserial
 ```
-2. Execute following command from the directory you placed 3 downloaded files:
+2. Execute following command from the directory you placed 3 downloaded files and monitor the flashing process:
 ```bash
-esptool.py -p /dev/cu.SLAB_USBtoUART -b 115200 write_flash --flash_mode dio --flash_size 2MB 0x20000 aws_demos.bin
+esptool.py -p /dev/cu.SLAB_USBtoUART -b 115200 write_flash --flash_mode dio --flash_size detect 0x20000 aws_demos.bin 0x1000 bootloader.bin 0x8000 partitions_example.bin
 ```
-3. Monitor the flashing process:
 ```bash
-esptool.py -p /dev/cu.SLAB_USBtoUART -b 115200 write_flash --flash_mode dio --flash_size 2MB 0x20000 aws_demos.bin
 esptool.py v2.5.1
-Serial port /dev/tty.SLAB_USBtoUART
+Serial port /dev/cu.SLAB_USBtoUART
 Connecting........__
+Detecting chip type... ESP32
 Chip is ESP32D0WDQ5 (revision 1)
 Features: WiFi, BT, Dual Core
-MAC: 24:0a:c4:23:de:7c
+MAC: 24:0a:c4:23:dc:4c
 Uploading stub...
 Running stub...
 Stub running...
-Changing baud rate to 921600
-Changed.
 Configuring flash size...
 Auto-detected Flash size: 4MB
-Flash params set to 0x0220
-Compressed 21936 bytes to 13046...
-Wrote 21936 bytes (13046 compressed) at 0x00001000 in 0.2 seconds (effective 1145.0 kbit/s)...
+Compressed 598640 bytes to 379167...
+Wrote 598640 bytes (379167 compressed) at 0x00020000 in 33.4 seconds (effective 143.2 kbit/s)...
 Hash of data verified.
-Compressed 628432 bytes to 398564...
-Wrote 628432 bytes (398564 compressed) at 0x00020000 in 5.9 seconds (effective 854.5 kbit/s)...
+Flash params set to 0x0220
+Compressed 21968 bytes to 13053...
+Wrote 21968 bytes (13053 compressed) at 0x00001000 in 1.2 seconds (effective 152.4 kbit/s)...
 Hash of data verified.
 Compressed 3072 bytes to 119...
-Wrote 3072 bytes (119 compressed) at 0x00008000 in 0.0 seconds (effective 3255.9 kbit/s)...
+Wrote 3072 bytes (119 compressed) at 0x00008000 in 0.0 seconds (effective 1484.1 kbit/s)...
 Hash of data verified.
 
 Leaving...
@@ -151,5 +151,7 @@ miniterm.py /dev/cu.SLAB_USBtoUART 115200
    * https://docs.aws.amazon.com/freertos/index.html#lang/en_us
 * Connect Microcontroller-Based Devices to the Cloud with Amazon FreeRTOS and Espressif ESP32
    * https://aws.amazon.com/blogs/apn/connect-microcontroller-based-devices-to-the-cloud-with-amazon-freertos-and-espressif-esp32/
+* Try out Amazon FreeRTOS BLE
+   * https://aws.amazon.com/blogs/iot/using-bluetooth-low-energy-with-amazon-freertos-on-espressif-esp32/
 
 
