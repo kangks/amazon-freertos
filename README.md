@@ -43,14 +43,14 @@ Amazon FreeRTOS references
 
 ## Step 4 – Configure Amazon FreeRTOS
 
-The configure.json can be found in amazon-freertos/tools/aws_config_quick_start/ in your Cloud9 environment.
+The configure.json can be found in `amazon-freertos/tools/aws_config_quick_start/` in your Cloud9 environment. Double click the file from the file explorer at the left hand side to open the editor.
 
 WiFi settings for the reInvent2018 as below:
 
 ```
 {
     "afr_source_dir":"/home/ec2-user/environment/amazon-freertos/",
-    "thing_name":"<a name for the thing, e.g. esp32_reInvent2018>",
+    "thing_name":"esp32_reInvent2018",
     "wifi_ssid":"Condensate",
     "wifi_password":"TheFinalCountdown",
     "wifi_security":"eWiFiSecurityWPA2"
@@ -58,6 +58,8 @@ WiFi settings for the reInvent2018 as below:
 ```
 
 To setup your Thing, and update credentials file, go to `amazon-freertos/tools/aws_config_quick_start/`, type the command `python SetupAWS.py setup`
+
+What this step does it, it will create an IoT Thing in the AWS IoT Core, and download the device certificates, and insert into the `aws_clientcredential_keys.h`
 
 For more details of quick start can be found in https://github.com/aws/amazon-freertos/tree/master/tools/aws_config_quick_start#script-to-setup-the-aws-resources-through-command-line
 
@@ -68,10 +70,10 @@ For more details of quick start can be found in https://github.com/aws/amazon-fr
 
 ## Step 6 – Download to local computer to flash to ESP32
 
-1.	Download these compiled .bin files from `~/environment/amazon-freertos/demos/espressif/esp32_devkitc_esp_wrover_kit/make/build` folder
-  1. aws_demos.bin
-  1. bootloader/bootloader.bin
-  1. partitions_example.bin
+1.	In Cloud9, expand the file explorer at the left hand side, go to `~/environment/amazon-freertos/demos/espressif/esp32_devkitc_esp_wrover_kit/make/build` folder, right click on the following files to download to local computer
+    1. aws_demos.bin
+    1. bootloader/bootloader.bin
+    1. partitions_example.bin
 
 ### Flashing Amazon FreeRTOS compiled firmware to your ESP32 board 
 
