@@ -2,6 +2,8 @@
 
 In this builder session, we will explore the Amazon FreeRTOS, by running example applications with esp32 development kit. Once we have our first hello world flash and running on the esp32, we will proceed to take a quick walk through of the codes.
 
+In view of a 1-hour builder session, AWS Cloud 9 will be used, which is a cloud IDE. That saves tiem with setting up a local IDE such as Eclipse+CDT
+
 # Steps	
 
 1. Create Cloud9 instance
