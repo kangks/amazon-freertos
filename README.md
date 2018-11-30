@@ -25,7 +25,7 @@ Amazon FreeRTOS references
 ## Step 2 - Configure Cloud9 environment
 
 1.	`sudo yum -y update`
-1.	`sudo yum groupinstall -y "Development tools”`
+1.	`sudo yum groupinstall -y "Development tools"`
 1.	Install GNU perfect, hash function generator
    1.	`sudo yum install –y gperf`
    1.	`sudo pip install serial`
