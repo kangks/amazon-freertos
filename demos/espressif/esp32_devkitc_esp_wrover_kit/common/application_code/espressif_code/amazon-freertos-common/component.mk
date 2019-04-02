@@ -21,7 +21,8 @@ COMPONENT_SRCDIRS := $(AMAZON_FREERTOS_LIB_DIR)/mqtt \
         $(AMAZON_FREERTOS_LIB_DIR)/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/esp32 \
         $(AMAZON_FREERTOS_LIB_DIR)/FreeRTOS-Plus-POSIX/source \
         $(AMAZON_FREERTOS_LIB_DIR)/third_party/jsmn \
-        $(AMAZON_FREERTOS_LIB_DIR)/third_party/tinycbor
+        $(AMAZON_FREERTOS_LIB_DIR)/third_party/tinycbor \
+        $(AMAZON_FREERTOS_DEMOS_DIR)/common/blinky
 
 COMPONENT_ADD_INCLUDEDIRS := $(AMAZON_FREERTOS_LIB_DIR)/FreeRTOS-Plus-TCP/include \
                              $(AMAZON_FREERTOS_LIB_DIR)/FreeRTOS-Plus-TCP/source/portable/Compiler/GCC \
