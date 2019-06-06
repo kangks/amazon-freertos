@@ -163,7 +163,7 @@ void vLoggingPrintf( const char * pcFormat,
                 {
                     const char * pcTaskName;
                     const char * pcNoTask = "None";
-                    static BaseType_t xMessageNumber = 0;
+                    static long unsigned int xMessageNumber = 0;
 
                     /* Add a time stamp and the name of the calling task to the
                      * start of the log. */

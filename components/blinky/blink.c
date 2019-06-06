@@ -53,7 +53,7 @@ void blink_task(void *pvParameter)
         gpio_set_level(gpio, on_off);
         on_off = !on_off;
         vTaskDelay(delay);
-//        configPRINTF(("blink %s\n", on_off?"ON":"OFF"));
+        configPRINTF(("blink %s\n", on_off?"ON":"OFF"));
 
 //        xTaskNotifyGive( xTaskMQTT );
     }
@@ -68,5 +68,5 @@ void blinkTask(unsigned int gpio)
 
 	BaseType_t status;
     status = xTaskCreate(&blink_task, "blink_task", ( configMINIMAL_STACK_SIZE * 4 ), &gpio_conf, ( tskIDLE_PRIORITY + 1 ), NULL);
-//    configPRINTF(("BaseType_t from creating blink task: %d\n", status));
+    configPRINTF(("BaseType_t from creating blink task: %d\n", status));
 }

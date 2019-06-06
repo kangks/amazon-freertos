@@ -10,7 +10,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
-// #include "aws_logging_task.h"
+#include "aws_logging_task.h"
 
 #include "driver/gpio.h"
 #include "sdkconfig.h"
@@ -28,9 +28,9 @@
 
 void app_main()
 {
-    // xLoggingTaskInitialize( mainLOGGING_TASK_STACK_SIZE,
-	// 						tskIDLE_PRIORITY + 5,
-	// 						mainLOGGING_MESSAGE_QUEUE_LENGTH );
+    xLoggingTaskInitialize( mainLOGGING_TASK_STACK_SIZE,
+							tskIDLE_PRIORITY + 5,
+							mainLOGGING_MESSAGE_QUEUE_LENGTH );
 
 	blinkTask(BLINK_GPIO);
 //    /* Configure the IOMUX register for pad BLINK_GPIO (some pads are
