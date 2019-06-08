@@ -53,17 +53,17 @@ void blink_task(void *pvParameter)
         gpio_set_level(gpio, on_off);
         on_off = !on_off;
         vTaskDelay(delay);
-        configPRINTF(("blink %s\n", on_off?"ON":"OFF"));
+        configPRINTF(("[%d] blink %s\n", gpio, on_off?"ON":"OFF"));
 
 //        xTaskNotifyGive( xTaskMQTT );
     }
 }
 
-void blinkTask(unsigned int gpio)
+void blinkTask(unsigned int gpio, unsigned int delay_ms)
 {
 	blink_parameter_t gpio_conf = {
 			.gpio = gpio,
-			.delay = 1000 / portTICK_PERIOD_MS,
+			.delay = delay_ms / portTICK_PERIOD_MS,
     };
 
 	BaseType_t status;

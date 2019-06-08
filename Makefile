@@ -23,7 +23,10 @@ PROJECT_NAME := afr_esp32
 
 IDF_PATH := $(CURDIR)/lib/third_party/mcu_vendor/espressif/esp-idf
 
-EXTRA_COMPONENT_DIRS := $(CURDIR)/espressif_code
+EXTRA_COMPONENT_DIRS := \
+	$(CURDIR)/espressif_code \
+	$(CURDIR)/lib \
+	$(CURDIR)/common
 
 include $(IDF_PATH)/make/project.mk
 

@@ -7,10 +7,21 @@
 
 COMPONENT_ADD_INCLUDEDIRS := \
 	include \
-	../common/include
+	../common/include \
+	../lib/include \
+	../lib/FreeRTOS-Plus-TCP/include \
+	../espressif_code/tcpip_adapter/include
 
 COMPONENT_SRCDIRS := \
 	. \
-	../common/logging
-	
+	../common/logging \
+	../lib/FreeRTOS-Plus-TCP/source \
+	../lib/utils \
+	../lib/bufferpool \
+	../lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/esp32 \
+	../espressif_code/tcpip_adapter/
+
+COMPONENT_PRIV_INCLUDEDIRS := \
+	../lib/include/private
+
 # COMPONENT_ADD_LDFLAGS += -Wl,--undefined=uxTopUsedPriority

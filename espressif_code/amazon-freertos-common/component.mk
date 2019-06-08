@@ -1,5 +1,4 @@
-AMAZON_FREERTOS_LIB_DIR := ../lib
-AMAZON_FREERTOS_DEMOS_DIR := ../../../../../../../demos
+AMAZON_FREERTOS_LIB_DIR := ../../lib
 
 COMPONENT_SRCDIRS := $(AMAZON_FREERTOS_LIB_DIR)/mqtt \
         $(AMAZON_FREERTOS_LIB_DIR)/shadow \
@@ -14,8 +13,6 @@ COMPONENT_SRCDIRS := $(AMAZON_FREERTOS_LIB_DIR)/mqtt \
         $(AMAZON_FREERTOS_LIB_DIR)/secure_sockets/portable/freertos_plus_tcp \
         $(AMAZON_FREERTOS_LIB_DIR)/pkcs11/portable/espressif/esp32_devkitc_esp_wrover_kit \
         $(AMAZON_FREERTOS_LIB_DIR)/pkcs11/mbedtls \
-        $(AMAZON_FREERTOS_DEMOS_DIR)/common/logging \
-        $(AMAZON_FREERTOS_DEMOS_DIR)/common/devmode_key_provisioning \
         $(AMAZON_FREERTOS_LIB_DIR)/FreeRTOS-Plus-TCP/source \
         $(AMAZON_FREERTOS_LIB_DIR)/FreeRTOS-Plus-TCP/source/portable/BufferManagement \
         $(AMAZON_FREERTOS_LIB_DIR)/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/esp32 \
@@ -36,17 +33,6 @@ COMPONENT_OBJEXCLUDE := $(AMAZON_FREERTOS_LIB_DIR)/FreeRTOS-Plus-TCP/source/port
                         $(AMAZON_FREERTOS_LIB_DIR)/FreeRTOS-Plus-POSIX/source/FreeRTOS_POSIX_pthread_cond.o \
                         $(AMAZON_FREERTOS_LIB_DIR)/FreeRTOS-Plus-POSIX/source/FreeRTOS_POSIX_sched.o
 
-ifndef AMAZON_FREERTOS_ENABLE_UNIT_TEST
-COMPONENT_SRCDIRS += ../.. \
-    $(AMAZON_FREERTOS_DEMOS_DIR)/common/demo_runner \
-    $(AMAZON_FREERTOS_DEMOS_DIR)/common/shadow \
-    $(AMAZON_FREERTOS_DEMOS_DIR)/common/mqtt \
-    $(AMAZON_FREERTOS_DEMOS_DIR)/common/greengrass_connectivity \
-    $(AMAZON_FREERTOS_DEMOS_DIR)/common/tcp \
-    $(AMAZON_FREERTOS_DEMOS_DIR)/common/ota \
-
-COMPONENT_ADD_INCLUDEDIRS += $(AMAZON_FREERTOS_DEMOS_DIR)/common/include
-endif
 
 COMPONENT_PRIV_INCLUDEDIRS := $(AMAZON_FREERTOS_LIB_DIR)/third_party/pkcs11 $(AMAZON_FREERTOS_LIB_DIR)/ota/portable/espressif/esp32_devkitc_esp_wrover_kit
 
