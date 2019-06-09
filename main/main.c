@@ -1,56 +1,86 @@
-/* Blink Example
+/*
+ * Amazon FreeRTOS V1.4.8
+ * Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * http://aws.amazon.com/freertos
+ * http://www.FreeRTOS.org
+ */
 
-   This example code is in the Public Domain (or CC0 licensed, at your option.)
+/* FreeRTOS includes. */
+#include "FreeRTOS.h"
+#include "task.h"
 
-   Unless required by applicable law or agreed to in writing, this
-   software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-   CONDITIONS OF ANY KIND, either express or implied.
-*/
-#include <stdio.h>
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-
+/* AWS System includes. */
+#include "aws_system_init.h"
 #include "aws_logging_task.h"
 
-#include "driver/gpio.h"
-#include "sdkconfig.h"
+#include "wifi.h"
 #include "blink.h"
 
-/* Can run 'make menuconfig' to choose the GPIO to blink,
-   or you can edit the following line and set a number here.
-*/
-#define BLINK_GPIO GPIO_NUM_2
+/* Application version info. */
+#include "aws_application_version.h"
 
 /* Logging Task Defines. */
 #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 32 )
 #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
 #define mainDEVICE_NICK_NAME                "Espressif_Demo"
 
-void app_main()
+/**
+ * @brief Application runtime entry point.
+ */
+int app_main( void )
 {
     xLoggingTaskInitialize( mainLOGGING_TASK_STACK_SIZE,
 							tskIDLE_PRIORITY + 5,
 							mainLOGGING_MESSAGE_QUEUE_LENGTH );
 
-	blinkTask(BLINK_GPIO, 1000);
+    init_espressif_wifi();
+
+    blinkTask(GPIO_NUM_2,1000);
+
+    return 0;
 }
 
-void vApplicationDaemonTaskStartupHook( void )
+/*-----------------------------------------------------------*/
+extern void esp_vApplicationTickHook();
+void IRAM_ATTR vApplicationTickHook()
 {
+    esp_vApplicationTickHook();
 }
 
-
+/*-----------------------------------------------------------*/
 extern void esp_vApplicationIdleHook();
 void vApplicationIdleHook()
 {
     esp_vApplicationIdleHook();
 }
 
-extern void esp_vApplicationTickHook();
-void IRAM_ATTR vApplicationTickHook()
+/**
+ * @brief Application task startup hook.
+ */
+void vApplicationDaemonTaskStartupHook( void );
+
+void vApplicationDaemonTaskStartupHook( void )
 {
-    esp_vApplicationTickHook();
 }
+/*-----------------------------------------------------------*/
 
 /*-----------------------------------------------------------*/
 /* configUSE_STATIC_ALLOCATION is set to 1, so the application must provide an
