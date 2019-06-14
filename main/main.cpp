@@ -95,6 +95,7 @@ extern "C" int app_main( void )
 
     xTaskCreate(&displayLoopWrapper, "displayLoop", 1024 * 2, NULL, 10, NULL);
 
+    oled.display("This is a test\nline 2");
     // blinkTask(GPIO_NUM_2,1000);
     // vStartSubpubDemoTasks();
 

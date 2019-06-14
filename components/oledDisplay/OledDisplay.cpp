@@ -23,7 +23,6 @@ void OledDisplay::displayLoop(void)
 {
     while(true) {
         m_ssd.Fill(SSD1306::Black);
-        sprintf(tmpbuff, "Temperature : %.2f C", 12.34);
         m_ssd.GotoXY(0, 15);
         m_ssd.Puts(&tmpbuff[0], &Font_7x10, SSD1306::White);
         m_ssd.UpdateScreen();
