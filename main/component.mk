@@ -24,4 +24,10 @@ COMPONENT_SRCDIRS := \
 COMPONENT_PRIV_INCLUDEDIRS := \
 	../lib/include/private
 
+COMPONENT_DEPENDS := \
+	esp32Wifi \
+	ssd1306 \
+	oledDisplay
+
+
 # COMPONENT_ADD_LDFLAGS += -Wl,--undefined=uxTopUsedPriority

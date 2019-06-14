@@ -28,13 +28,21 @@
 #include "task.h"
 
 /* Demo includes */
-#include "aws_demo_runner.h"
-#include "aws_dev_mode_key_provisioning.h"
+// #include "aws_demo_runner.h"
+// #include "aws_dev_mode_key_provisioning.h"
 
 /* AWS System includes. */
-#include "aws_system_init.h"
 #include "aws_logging_task.h"
-#include "aws_wifi.h"
+
+#if defined (__cplusplus)
+extern "C" {
+#endif
+    #include "aws_system_init.h"
+    #include "aws_wifi.h" 
+#if defined (__cplusplus)
+}
+#endif
+
 #include "aws_clientcredential.h"
 #include "nvs_flash.h"
 #include "FreeRTOS_IP.h"
@@ -44,7 +52,7 @@
 #include "esp_wifi.h"
 #include "esp_interface.h"
 
-#include "blink.h"
+#include "esp32Wifi.h"
 
 /* Application version info. */
 #include "aws_application_version.h"
@@ -54,31 +62,12 @@
 #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
 #define mainDEVICE_NICK_NAME                "Espressif_Demo"
 
-/* Declare the firmware version structure for all to see. */
-const AppVersion32_t xAppFirmwareVersion = {
-   .u.x.ucMajor = APP_VERSION_MAJOR,
-   .u.x.ucMinor = APP_VERSION_MINOR,
-   .u.x.usBuild = APP_VERSION_BUILD,
-};
+extern "C" void vDevModeKeyProvisioning( void );
+// extern "C" WIFIReturnCode_t WIFI_On( void );
+extern "C" WIFIReturnCode_t WIFI_On();
 
-/* Static arrays for FreeRTOS+TCP stack initialization for Ethernet network connections
- * are use are below. If you are using an Ethernet connection on your MCU device it is 
- * recommended to use the FreeRTOS+TCP stack. The default values are defined in 
- * FreeRTOSConfig.h. */
+Esp32Wifi::Esp32Wifi(){
 
-/* Default MAC address configuration.  The demo creates a virtual network
- * connection that uses this MAC address by accessing the raw Ethernet data
- * to and from a real network connection on the host PC.  See the
- * configNETWORK_INTERFACE_TO_USE definition for information on how to configure
- * the real network connection to use. */
-uint8_t ucMACAddress[ 6 ] =
-{
-    configMAC_ADDR0,
-    configMAC_ADDR1,
-    configMAC_ADDR2,
-    configMAC_ADDR3,
-    configMAC_ADDR4,
-    configMAC_ADDR5
 };
 
 /* The default IP and MAC address used by the demo.  The address configuration
@@ -86,58 +75,14 @@ uint8_t ucMACAddress[ 6 ] =
  * 1 but a DHCP server could not be contacted.  See the online documentation for
  * more information.  In both cases the node can be discovered using
  * "ping RTOSDemo". */
-static const uint8_t ucIPAddress[ 4 ] =
-{
-    configIP_ADDR0,
-    configIP_ADDR1,
-    configIP_ADDR2,
-    configIP_ADDR3
-};
-static const uint8_t ucNetMask[ 4 ] =
-{
-    configNET_MASK0,
-    configNET_MASK1,
-    configNET_MASK2,
-    configNET_MASK3
-};
-static const uint8_t ucGatewayAddress[ 4 ] =
-{
-    configGATEWAY_ADDR0,
-    configGATEWAY_ADDR1,
-    configGATEWAY_ADDR2,
-    configGATEWAY_ADDR3
-};
-static const uint8_t ucDNSServerAddress[ 4 ] =
-{
-    configDNS_SERVER_ADDR0,
-    configDNS_SERVER_ADDR1,
-    configDNS_SERVER_ADDR2,
-    configDNS_SERVER_ADDR3
-};
 
-/**
- * @brief Connects to WiFi.
- */
-static void prvWifiConnect( void );
-
-/**
- * @brief Initializes the board.
- */
-static void prvMiscInitialization( void );
-/*-----------------------------------------------------------*/
 
 /**
  * @brief Application runtime entry point.
  */
-int init_espressif_wifi( void )
+int Esp32Wifi::init( void )
 {
-    /* Perform any hardware initialization that does not require the RTOS to be
-     * running.  */
-    prvMiscInitialization();
-    	/* Create tasks that are not dependent on the WiFi being initialized. */
-    xLoggingTaskInitialize( mainLOGGING_TASK_STACK_SIZE,
-							tskIDLE_PRIORITY + 5,
-							mainLOGGING_MESSAGE_QUEUE_LENGTH );
+
     FreeRTOS_IPInit( ucIPAddress,
             ucNetMask,
             ucGatewayAddress,
@@ -155,31 +100,11 @@ int init_espressif_wifi( void )
         vDevModeKeyProvisioning();
     }
 
-    /* Start the scheduler.  Initialization that requires the OS to be running,
-     * including the WiFi initialization, is performed in the RTOS daemon task
-     * startup hook. */
-    // Following is taken care by initialization code in ESP IDF
-    // vTaskStartScheduler();
-
     return 0;
 }
-
 /*-----------------------------------------------------------*/
 
-static void prvMiscInitialization( void )
-{
-	// Initialize NVS
-	esp_err_t ret = nvs_flash_init();
-	if (ret == ESP_ERR_NVS_NO_FREE_PAGES) {
-		ESP_ERROR_CHECK(nvs_flash_erase());
-		ret = nvs_flash_init();
-	}
-	ESP_ERROR_CHECK( ret );
-}
-/*-----------------------------------------------------------*/
-
-
-void prvWifiConnect( void )
+void Esp32Wifi::prvWifiConnect( void )
 {
     WIFINetworkParams_t xNetworkParams;
     WIFIReturnCode_t xWifiStatus;
@@ -233,7 +158,7 @@ const char * pcApplicationHostnameHook( void )
 }
 
 #endif
-/*-----------------------------------------------------------*/
+// /*-----------------------------------------------------------*/
 
 #if ( ipconfigUSE_LLMNR != 0 ) || ( ipconfigUSE_NBNS != 0 )
 
@@ -261,22 +186,6 @@ BaseType_t xApplicationDNSQueryHook( const char * pcName )
 }
 
 #endif /* if ( ipconfigUSE_LLMNR != 0 ) || ( ipconfigUSE_NBNS != 0 ) */
-/*-----------------------------------------------------------*/
-
-/**
- * @brief Warn user if pvPortMalloc fails.
- *
- * Called if a call to pvPortMalloc() fails because there is insufficient
- * free memory available in the FreeRTOS heap.  pvPortMalloc() is called
- * internally by FreeRTOS API functions that create tasks, queues, software
- * timers, and semaphores.  The size of the FreeRTOS heap is set by the
- * configTOTAL_HEAP_SIZE configuration constant in FreeRTOSConfig.h.
- *
- */
-void vApplicationMallocFailedHook()
-{
-    configPRINTF( ( "ERROR: Malloc failed to allocate memory\r\n" ) );
-}
 
 /*-----------------------------------------------------------*/
 void vApplicationIPNetworkEventHook( eIPCallbackEvent_t eNetworkEvent )

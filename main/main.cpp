@@ -25,49 +25,92 @@
 
 /* FreeRTOS includes. */
 #include "FreeRTOS.h"
+#include "freertos/portmacro.h"
 #include "task.h"
+#include "nvs_flash.h"
+
+#if defined (__cplusplus)
+extern "C" {
+#endif
+    #include "aws_logging_task.h"
+#if defined (__cplusplus)
+}
+#endif
 
 /* AWS System includes. */
 #include "aws_system_init.h"
-#include "aws_logging_task.h"
-
-#include "wifi.h"
-#include "blink.h"
+#include "aws_subscribe_publish_loop.h"
 
 /* Application version info. */
 #include "aws_application_version.h"
+
+#include "I2CMaster.h"
+#include "SSD1306.h"
+#include "OledDisplay.hpp"
+#include "esp32Wifi.h"
+#include "blink.h"
 
 /* Logging Task Defines. */
 #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 32 )
 #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
 #define mainDEVICE_NICK_NAME                "Espressif_Demo"
 
+I2CMaster i2c(I2C_NUM_1, GPIO_NUM_21, GPIO_NUM_22);
+SSD1306   ssd(i2c);
+OledDisplay oled(ssd);
+Esp32Wifi esp32wifi;
+
+static void initialize_nvs()
+{
+    esp_err_t err = nvs_flash_init();
+    if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+        ESP_ERROR_CHECK(nvs_flash_erase());
+        err = nvs_flash_init();
+    }
+    ESP_ERROR_CHECK(err);
+}
+
+void displayLoopWrapper(void *pvParameter)
+{
+    OledDisplay *oledPtr = &oled;
+    oledPtr->displayLoop();
+}
+
 /**
  * @brief Application runtime entry point.
  */
-int app_main( void )
+extern "C" int app_main( void )
 {
+    initialize_nvs();
+
     xLoggingTaskInitialize( mainLOGGING_TASK_STACK_SIZE,
 							tskIDLE_PRIORITY + 5,
 							mainLOGGING_MESSAGE_QUEUE_LENGTH );
 
-    init_espressif_wifi();
+    esp32wifi.init();
 
-    blinkTask(GPIO_NUM_2,1000);
+    i2c.init();
+    ssd.init();
+    oled.init();
+
+    xTaskCreate(&displayLoopWrapper, "displayLoop", 1024 * 2, NULL, 10, NULL);
+
+    // blinkTask(GPIO_NUM_2,1000);
+    // vStartSubpubDemoTasks();
 
     return 0;
 }
 
 /*-----------------------------------------------------------*/
-extern void esp_vApplicationTickHook();
-void IRAM_ATTR vApplicationTickHook()
+extern "C" void esp_vApplicationTickHook();
+extern "C" void IRAM_ATTR vApplicationTickHook()
 {
     esp_vApplicationTickHook();
 }
 
 /*-----------------------------------------------------------*/
-extern void esp_vApplicationIdleHook();
-void vApplicationIdleHook()
+extern "C" void esp_vApplicationIdleHook();
+extern "C" void vApplicationIdleHook()
 {
     esp_vApplicationIdleHook();
 }
@@ -75,9 +118,7 @@ void vApplicationIdleHook()
 /**
  * @brief Application task startup hook.
  */
-void vApplicationDaemonTaskStartupHook( void );
-
-void vApplicationDaemonTaskStartupHook( void )
+extern "C" void vApplicationDaemonTaskStartupHook( void )
 {
 }
 /*-----------------------------------------------------------*/
@@ -86,7 +127,7 @@ void vApplicationDaemonTaskStartupHook( void )
 /* configUSE_STATIC_ALLOCATION is set to 1, so the application must provide an
  * implementation of vApplicationGetIdleTaskMemory() to provide the memory that is
  * used by the Idle task. */
-void vApplicationGetIdleTaskMemory( StaticTask_t ** ppxIdleTaskTCBBuffer,
+extern "C" void vApplicationGetIdleTaskMemory( StaticTask_t ** ppxIdleTaskTCBBuffer,
                                     StackType_t ** ppxIdleTaskStackBuffer,
                                     uint32_t * pulIdleTaskStackSize )
 {
@@ -113,7 +154,7 @@ void vApplicationGetIdleTaskMemory( StaticTask_t ** ppxIdleTaskTCBBuffer,
 /* configUSE_STATIC_ALLOCATION is set to 1, so the application must provide an
  * implementation of vApplicationGetTimerTaskMemory() to provide the memory that is
  * used by the RTOS daemon/time task. */
-void vApplicationGetTimerTaskMemory( StaticTask_t ** ppxTimerTaskTCBBuffer,
+extern "C" void vApplicationGetTimerTaskMemory( StaticTask_t ** ppxTimerTaskTCBBuffer,
                                      StackType_t ** ppxTimerTaskStackBuffer,
                                      uint32_t * pulTimerTaskStackSize )
 {
@@ -136,3 +177,21 @@ void vApplicationGetTimerTaskMemory( StaticTask_t ** ppxTimerTaskTCBBuffer,
     *pulTimerTaskStackSize = configTIMER_TASK_STACK_DEPTH;
 }
 /*-----------------------------------------------------------*/
+
+/**
+ * @brief Warn user if pvPortMalloc fails.
+ *
+ * Called if a call to pvPortMalloc() fails because there is insufficient
+ * free memory available in the FreeRTOS heap.  pvPortMalloc() is called
+ * internally by FreeRTOS API functions that create tasks, queues, software
+ * timers, and semaphores.  The size of the FreeRTOS heap is set by the
+ * configTOTAL_HEAP_SIZE configuration constant in FreeRTOSConfig.h.
+ *
+ */
+void vApplicationMallocFailedHook()
+{
+    configPRINTF( ( "ERROR: Malloc failed to allocate memory\r\n" ) );
+}
+
+/*-----------------------------------------------------------*/
+
