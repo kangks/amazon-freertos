@@ -19,7 +19,7 @@ void OledDisplay::display(char* buffer){
     memcpy(this->tmpbuff,buffer,MAX_LENGTH);
 };
 
-void OledDisplay::displayLoop(void)
+void OledDisplay::displayLoop(void *pvParameter)
 {
     while(true) {
         m_ssd.Fill(SSD1306::Black);

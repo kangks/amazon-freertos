@@ -9,7 +9,7 @@ class OledDisplay{
 
         void init();
         void display(char*);
-        void displayLoop(void);
+        void displayLoop(void *);
     private:
         char tmpbuff[MAX_LENGTH];
         SSD1306 & m_ssd;

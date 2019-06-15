@@ -2,3 +2,4 @@
 *.unc*
 doc/html/*
 build/*
+.vscode/*

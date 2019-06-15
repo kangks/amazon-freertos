@@ -70,10 +70,10 @@ static void initialize_nvs()
     ESP_ERROR_CHECK(err);
 }
 
+// Wrapper function to convert a pointer-to-member-function to a void*
 void displayLoopWrapper(void *pvParameter)
 {
-    OledDisplay *oledPtr = &oled;
-    oledPtr->displayLoop();
+    oled.displayLoop(pvParameter);
 }
 
 /**
