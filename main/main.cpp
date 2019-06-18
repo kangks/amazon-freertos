@@ -33,6 +33,7 @@
 extern "C" {
 #endif
     #include "aws_logging_task.h"
+    #include "app_camera.h"
 #if defined (__cplusplus)
 }
 #endif
@@ -49,6 +50,8 @@ extern "C" {
 #include "OledDisplay.hpp"
 #include "esp32Wifi.h"
 #include "blink.h"
+#include "awsIoTMqtt.h"
+
 
 /* Logging Task Defines. */
 #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 32 )
@@ -59,6 +62,7 @@ I2CMaster i2c(I2C_NUM_1, GPIO_NUM_21, GPIO_NUM_22);
 SSD1306   ssd(i2c);
 OledDisplay oled(ssd);
 Esp32Wifi esp32wifi;
+AwsIoTMqtt awsIoTMqtt;
 
 static void initialize_nvs()
 {
@@ -92,6 +96,9 @@ extern "C" int app_main( void )
     i2c.init();
     ssd.init();
     oled.init();
+    awsIoTMqtt.init();
+
+    app_camera_init();
 
     xTaskCreate(&displayLoopWrapper, "displayLoop", 1024 * 2, NULL, 10, NULL);
 

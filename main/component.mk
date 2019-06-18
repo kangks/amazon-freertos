@@ -19,7 +19,7 @@ COMPONENT_SRCDIRS := \
 	../lib/utils \
 	../lib/bufferpool \
 	../lib/FreeRTOS-Plus-TCP/source/portable/NetworkInterface/esp32 \
-	../espressif_code/tcpip_adapter/
+	../espressif_code/tcpip_adapter/ 
 
 COMPONENT_PRIV_INCLUDEDIRS := \
 	../lib/include/private
@@ -27,7 +27,9 @@ COMPONENT_PRIV_INCLUDEDIRS := \
 COMPONENT_DEPENDS := \
 	esp32Wifi \
 	ssd1306 \
-	oledDisplay
+	oledDisplay \
+	ttgo-tcamera-esp32 \
+	awsIoTMqtt
 
 
 # COMPONENT_ADD_LDFLAGS += -Wl,--undefined=uxTopUsedPriority
