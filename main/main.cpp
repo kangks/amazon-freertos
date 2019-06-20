@@ -52,7 +52,6 @@ extern "C" {
 #include "blink.h"
 #include "awsIoTMqtt.h"
 
-
 /* Logging Task Defines. */
 #define mainLOGGING_MESSAGE_QUEUE_LENGTH    ( 32 )
 #define mainLOGGING_TASK_STACK_SIZE         ( configMINIMAL_STACK_SIZE * 6 )
@@ -104,7 +103,6 @@ extern "C" int app_main( void )
 
     oled.display("This is a test\nline 2");
     // blinkTask(GPIO_NUM_2,1000);
-    // vStartSubpubDemoTasks();
 
     return 0;
 }

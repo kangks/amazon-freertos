@@ -8,7 +8,7 @@ class OledDisplay{
         {}
 
         void init();
-        void display(char*);
+        void display(const char*);
         void displayLoop(void *);
     private:
         char tmpbuff[MAX_LENGTH];

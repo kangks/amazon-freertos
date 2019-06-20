@@ -15,7 +15,7 @@ extern "C" {
 void OledDisplay::init(){
 };
 
-void OledDisplay::display(char* buffer){
+void OledDisplay::display(const char* buffer){
     memcpy(this->tmpbuff,buffer,MAX_LENGTH);
 };
 

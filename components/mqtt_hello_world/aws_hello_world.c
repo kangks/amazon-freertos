@@ -125,7 +125,7 @@ static void prvMQTTConnectAndPublishTask( void * pvParameters );
  *
  * @return pdPASS if everything is successful, pdFAIL otherwise.
  */
-static BaseType_t prvCreateClientAndConnectToBroker( void );
+// static BaseType_t prvCreateClientAndConnectToBroker( void );
 
 /**
  * @brief Publishes the next message to the echoTOPIC_NAME topic.
@@ -172,7 +172,7 @@ static MQTTAgentHandle_t xMQTTHandle = NULL;
 
 /*-----------------------------------------------------------*/
 
-static BaseType_t prvCreateClientAndConnectToBroker( void )
+BaseType_t prvCreateClientAndConnectToBroker( void )
 {
     MQTTAgentReturnCode_t xReturned;
     BaseType_t xReturn = pdFAIL;
