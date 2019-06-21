@@ -1,5 +1,260 @@
 # Change Log for Amazon FreeRTOS
 
+## 201906.00 Major 06/17/2019
+### Release Versioning
+- Move Amazon FreeRTOS to a new versioning scheme (YYYYMM.NN [optional "Major" tag]), while retaining semantic versioning (x.y.z) used for individual libraries within Amazon FreeRTOS. This release contains multiple major version updates for individual libraries. See below for details.
+
+### Folder Structure
+- Update folder structure to provide a cleaner separation between FreeRTOS kernel, standard libraries, AWS libraries, platform-specific ports and 3rd party libraries. Customers upgrading from earlier versions will need to update their project files.
+
+### New Features
+#### Bluetooth Low Energy Management Library V1.0.0
+- Bluetooth Low Energy management API for GAP and GATT services, with support for
+    - Bluetooth Low Energy v4.2 and above.
+    - Device discovery, notifications and indications.
+    - Creating, starting, stopping, and deleting GATT services.
+    - “Just Works” and “Secure Connections - Numeric Comparison” connection methods.
+- Companion device SDK 1.0.0 release for
+    - Android https://github.com/aws/amazon-freertos-ble-android-sdk/
+    - iOS https://github.com/aws/amazon-freertos-ble-ios-sdk/
+- GATT services for 
+    - Device information.
+    - Wi-Fi credentials provisioning.
+    - MQTT-over-Bluetooth Low Energy through Android or iOS device proxy to support.
+        - OTA and Device Shadow functionality.
+
+#### MQTT Library V2.0.0, Device Shadow Library V2.0.0, and Device Defender Library V2.0.0
+- Enable consistent re-use pattern of one single connection across all libraries.
+- Add support for MQTT 3.1.1 standard features.
+    - Last Will and Testament.
+    - QoS1 with randomized retry logic.
+    - Persistent sessions.
+- Add programming model revisions to enable.
+    - Fully non-blocking programming model.
+    - Per-operation user callback.
+    - Fully dynamic or fully static memory management.
+    - Full support for Bluetooth Low Energy transport as well as TCP/IP.
+    - Re-implementable abstraction layer to allow port on any network stacks.
+    - Standard, configurable logging mechanism.
+- Extend Device Defender support to additional development boards. Current set of metrics now available on all development boards that implement Secure Sockets abstraction.  
+
+#### Task Pool library V1.0.0
+- Task (Thread) pool library for asynchronous processing.
+
+#### Atomic Operations Library V1.0.0
+- Add library for atomic operations support.
+
+### Updates
+#### Wi-Fi Management Library V1.0.3
+- Add new API ```WIFI_RegisterNetworkStateChangeEventCallback``` to allow application notifications for Wi-Fi state transitions.
+
+#### CMake Builds
+- Extend the ability to build projects using CMake in addition to providing IDE project files. CMake files are now available for the following development boards:
+    - Espressif ESP32-DevKitC
+    - Espressif ESP-WROVER-KIT
+    - Infineon XMC4800 IoT Connectivity Kit
+    - Marvell MW320 AWS IoT Starter Kit
+    - Marvell MW322 AWS IoT Starter Kit
+    - Microchip Curiosity PIC32MZEF Bundle
+    - STMicroelectronicsSTM32L4 Discovery Kit IoT Node
+    - Texas Instruments CC3220SF-LAUNCHXL
+    - Microsoft Windows Simulator
+
+### Updates 
+- mbedTLS library is upgraded to version 2.16.0.
+- ESP-IDF version is upgraded to 3.1.3.
+- Update demo projects for cleaner separation of platform specific code.
+- Documentation update.
+
+## V1.4.8 05/21/2019
+### New Features
+#### New Boards: Marvell MW320 and MW322
+- Marvell boards MW320 and MW322 are now qualified for Amazon FreeRTOS.
+- Disclaimer on RNG: The random number generation solution in this port is for demonstration purposes only. 
+
+#### FreeRTOS Kernel V10.2.0
+- Kernel version for Amazon FreeRTOS is updated to V10.2.0.
+- Add Support for RISC-V.
+- Include pre-existing ARM Cortex-M33 (ARMv8-M) GCC/ARMclang and IAR ports.
+
+### Updates
+
+#### Greengrass Discovery V1.0.4
+- Include C runtime header for snprintf.
+- Sanity check the number of bytes written.
+- Thing name can be a non-string literal.
+
+#### MQTT Agent V1.1.5
+- Set the socket to block on sends with a timeout in prvSetupConnection.
+
+#### Secure Sockets for FreeRTOS+TCP V1.1.6
+- ulApplicationGetNextSequenceNumber is now thread safe without stopping the scheduler.
+- Leave the scheduler running during PKCS #11 calls.
+
+#### Wi-Fi for ESP32-DevKitC ESP-WROVER-KIT V1.0.2
+- lib/wifi: fix issue with WiFi configuration for non-null strings, and fix scanning failure under certain disconnect scenarios. 
+- ib/FreeRTOS-Plus-TCP: do not send eNetworkDownEvent to stack if interface is already down.
+- mbedtls: configurable options for controlling dynamic memory allocations.
+- lib/third_party: update ESP-IDF to latest v3.1.3 release.
+- NetworkInterface: check interface state before sending packets to WiFi driver.
+- Fix WIFI_GetMac returning wrong mac address.
+
+#### PKCS #11 PAL for Cypress CYW943907AEVAL1F development kit V1.0.1
+- Fix Cypress build error with IDE.
+
+#### PKCS #11 PAL for Cypress CYW954907AEVAL1F development kit V1.0.1
+- Fix Cypress build error with  IDE.
+
+#### FreeRTOS+TCP V2.0.11
+- Make RST packet handling more robust.
+- Make TCP window high and low watermark thresholds runtime configurable.
+- Fix parsing of the last option in a DHCP response packet.
+- Fix TCP window size calculation.
+- Allow the DNS cache to be programmatically cleared.
+- Free the memory allocated by the pcap_compile routine in the WinPCap network interface module.
+
+#### Shadow V1.0.6
+- Add a debug message in the event that JSMN runs out of memory trying to parse JSON.    
+- Print a debug message for any JSMN error, not just 'JSMN_ERROR_NOMEM'.
+
+#### PKCS #11 PAL for Windows Simulator V1.0.4
+- Update to permit multithreaded read from object storage.
+
+#### OTA Agent V1.0.2
+- Update documentation.
+
+#### TLS V1.1.4
+- TLS_Send now handles the error condition when space is not avaiable.	
+- Convert errors in TLS wrapper to negative error codes.
+
+#### Curiosity PIC32MZEF Linker Update for XC32 Compiler
+- The latest XC32 compiler (version 2.15) does not allow multiple definitions by default. Explicitly enabling multiple definitions in aws_tests and aws_demos projects for now. 
+
+## V1.4.7 02/18/2019
+### New Features
+### New Boards: Cypress CYW43907 and CYW54907
+- Cypress boards CYW54907 and CYW43907 are now qualified for Amazon FreeRTOS.
+
+#### FreeRTOS Kernel V10.1.1
+- Kernel version for Amazon FreeRTOS is updated to 10.1.1.
+- Update all object handles (TaskHandle_t, QueueHandle_t, etc.) to be unique types instead of void pointers, improving type safety.
+- Add Xtensa port.
+- Update to the latest trace recorder code.
+- Update lint checked MISRA compliance to use the latest MISRA standard.
+- Add configUSE_POSIX_ERRNO to enable per task POSIX style errno functionality.
+
+### Updates
+
+#### FreeRTOS+POSIX V1.0.3
+- Use stack based alloaction for POSIX types. Stack based allocation will reduce heap fragmentation.
+- Fixed potential overflow in Posix timespec utils.
+- Stopped Posix timer spawnning thread every time it is invoked.
+- Unlock and update owner atomically, while unlocking mutex.
+
+#### MQTT Agent V1.1.4
+- Bug fix: MQTT agent tries to setup a connection with the MQTT broker when the socket does not exist.
+
+####  Upgrading ESP-IDF to 3.1.1
+- ESP-IDF upgraded to 3.1.1.
+
+#### OTA PAL for Curiosity PIC32MZEF V1.0.3
+- Rename variables to comply with style guidelines.
+
+#### OTA PAL for Windows Simulator V1.0.2
+- Rename variables to comply with style guidelines.
+
+#### OTA PAL for CC3220SF-LAUNCHXL V1.0.1
+- Rename variables to comply with style guidelines.
+
+#### OTA Agent V1.0.1
+- Rename variables to comply with style guidelines.
+
+#### PKCS #11 PAL for Cypress CYW943907AEVAL1F development kit V1.0.0
+- Added as part of Cypress CYW43907 board port. 
+- Note that the random number generation solution in this port is provided for demonstration purposes only. See the comment in lib/pkcs11/portable/cypress/CYW943907AEVAL1F/hw_poll.c.
+
+#### PKCS #11 PAL for Cypress CYW954907AEVAL1F development kit V1.0.0
+- Added as part of Cypress CYW54907 board port.
+- Note that the random number generation solution in this port is provided for demonstration purposes only. See the comment in lib/pkcs11/portable/cypress/CYW954907AEVAL1F/hw_poll.c
+
+#### PKCS #11 PAL for ESP32-DevKitC ESP-WROVER-KIT V1.0.2
+- Updated as part of Updrade to ESP-IDF to 3.1.1.
+
+#### mbedTLS-based PKCS#11 V1.0.7
+- Bug Fix: Multi-threaded use of PKCS #11 Sign/Verify could cause key corruption.
+
+#### Wi-Fi for Cypress CYW943907AEVAL1F development kit V1.0.0
+- Added as part of Cypress CYW43907 board port.
+
+#### Wi-Fi for Cypress CYW954907AEVAL1F development kit V1.0.0
+- Added as part of Cypress CYW54907 board port.
+
+#### Wi-Fi for ESP32-DevKitC ESP-WROVER-KIT V1.0.1
+- Update as part of Updrade to ESP-IDF to 3.1.1.
+
+#### Wi-Fi for LPC54018 IoT Module V1.0.3
+- Bug fix: Update WIFI init API to return success if WIFI module was already successfully initialized.
+- Bug fix: Update WIFI AP connection API for NXP to check if DHCP was successful.
+
+## V1.4.6 12/27/2018
+### New Features
+
+#### New Board: Renesas Starter Kit+ for RX65N-2MB
+The Renesas Starter Kit+ for RX65N-2MB is now qualified for Amazon FreeRTOS. This port updates the PKCS #11 portable layer, demo projects, and tests.
+
+### Updates
+
+#### FreeRTOS+POSIX V1.0.2
+- Improvement to reduce the size of a pthread object and make the object user allocatable from stack.
+
+#### FreeRTOS+TCP V2.0.10
+- Add FreeRTOS+TCP support for the Renesas Starter Kit+ for RX65N-2MB.
+
+#### FreeRTOS Kernel V10.0.1
+- Add FreeRTOS Kernel support for the Renesas Starter Kit+ for RX65N-2MB.
+
+#### PKCS #11 PAL for MT7697Hx-Dev-Kit V1.0.1
+- Update license information.
+
+#### PKCS #11 PAL for Renesas Starter Kit+ for RX65N-2MB V1.0.0
+- Add PKCS #11 support for the Renesas Starter Kit+ for RX65N-2MB. 
+- Note that the random number generation solution in this port is provided for demonstration purposes only. See the comment in lib/third_party/mcu_vendor/renesas/amazon_freertos_common/entropy_hardware_poll.c for more information.
+
+#### Wi-Fi for MT7697Hx-Dev-Kit V1.0.1
+- Update license information.
+
+## V1.4.5 12/13/2018
+### New Features
+
+#### New Board: MediaTek MT7697Hx-Dev-Kit
+The MediaTek MT7697 System on Chip (SoC) is now qualified for Amazon FreeRTOS. You can take advantage of Amazon FreeRTOS features and benefits using the MediaTek MT7697Hx Development Kit available from MediaTek Labs.  This development board contains the MT7697 SoC, which includes an Arm Cortex-M4 MCU, low power 1T1R 802.11 b/g/n Wi-Fi, Bluetooth 4.2 subsystem and power management unit.
+
+#### lwIP Support
+Amazon FreeRTOS support for the MediaTek MT7697Hx-Dev-Kit includes for the first time support for the Lightweight TCP / IP network stack (lwIP). This flexibility will support customer choice in identifying the best TCP stack solution for IoT devices.
+
+### Updates
+
+#### FreeRTOS+TCP V2.0.9
+- Update to flush ARP cache when then network is down.
+
+#### mbedTLS-based PKCS#11 V1.0.6
+- Delete extra include headers.
+
+#### PKCS #11 PAL for MT7697Hx-Dev-Kit V1.0.0
+- Add PKCS #11 support for the MediaTek MT7697Hx-Dev-Kit.
+
+#### Secure Sockets for FreeRTOS+TCP V1.1.5
+- Update documentation.
+
+#### Secure Sockets for lwIP V1.0.0
+- Add Secure Sockets support for lwIP.
+
+#### Wi-Fi for Infineon XMC4800 IoT Connectivity Kit V1.0.1
+- Update documentation.
+
+#### Wi-Fi for MT7697Hx-Dev-Kit V1.0.0
+- Add Wi-Fi support for the MediaTek MT7697Hx-Dev-Kit.
+
 ## V1.4.4 11/19/2018
 ### Updates
 
@@ -252,12 +507,12 @@ This release includes version 1.0.0 of FreeRTOS+POSIX.  FreeRTOS+POSIX is a POSI
 
 ## V1.2.7 05/31/2018
 
-- Update the Texas Instruments SimpleLink CC3220 SDK from version 1.40.01.00 to version 2.10.00.04.
+- Update the Texas Instruments SimpleLink CC3220SF SDK from version 1.40.01.00 to version 2.10.00.04.
 - Fix the MQTT Echo Demo (Hello World Demo) to avoid truncating received strings.
 - Modify the Getting Started scripts to check if the AWS CLI is configured.
 
 #### Secure Sockets for CC3220SF-LAUNCHXL V1.0.4
-- Update comments for SimpleLink CC3220 SDK version 2.10.00.04.
+- Update comments for SimpleLink CC3220SF SDK version 2.10.00.04.
 
 --------------
 
