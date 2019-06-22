@@ -157,6 +157,7 @@ target_link_libraries(
         AFR::pkcs11
 )
 
+
 # -------------------------------------------------------------------------------------------------
 # Amazon FreeRTOS demos and tests
 # -------------------------------------------------------------------------------------------------
@@ -175,17 +176,20 @@ endif()
 
 add_executable(
     ${exe_target}
-    "${board_dir}/application_code/main.c"
+    "${board_dir}/application_code/main.cpp"
     ${extra_exe_sources}
 )
 target_include_directories(
     ${exe_target}
     PUBLIC
+        "${board_dir}/application_code/espressif_code/ttgo/include"
         $<TARGET_PROPERTY:AFR::kernel,INTERFACE_INCLUDE_DIRECTORIES>
         $<TARGET_PROPERTY:AFR::ble_hal::mcu_port,INTERFACE_INCLUDE_DIRECTORIES>
 )
 target_link_libraries(
     ${exe_target}
+    PUBLIC
+        AFR::ttgo
     PRIVATE
         AFR::wifi
         AFR::utils
@@ -288,6 +292,8 @@ idf_import_components(components ${esp_idf_dir} esp-idf)
 
 # Wraps target_link_libraries() to link processed components by idf_import_components to target
 idf_link_components(${exe_target} "${components}")
+
+message(STATUS "components>>:${components}")
 
 # Monitor target for running idf_monitor.py
 add_custom_target(monitor
