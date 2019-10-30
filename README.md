@@ -4,6 +4,10 @@ In this builder session, we will explore the Amazon FreeRTOS, by running example
 
 In view of a 1-hour builder session, AWS Cloud 9 will be used, which is a cloud IDE. That saves tiem with setting up a local IDE such as Eclipse+CDT
 
+# Attribution
+
+I leverage the contents from https://github.com/yona75/dts2019-workshop heavily so credit goes to the original authors!
+
 # Steps	
 
 1. Create Cloud9 instance
